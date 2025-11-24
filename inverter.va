@@ -20,15 +20,13 @@ module inverter(output out, input in);
   // Output resistance to avoid ideal short loops; keeps source non-rigid.
   parameter real r_out = 1 from (0:inf);
 
+  // Internal target voltage used to shape the output edge through the resistor.
+  real v_target;
+
   analog begin
     // Use transition() to model finite edge rates and transport delay.
     // Drive output through finite resistance to avoid rigid-branch loops.
-    real v_target;
     v_target = transition(V(in) > v_th ? v_low : v_high, t_delay, t_rise, t_fall);
     I(out) <+ (V(out) - v_target) / r_out;
   end
 endmodule
-//"/home/shangminyu/cad_tsmc65gp_201811/Califree_PLL_mergedDTC/Califree_inv_ideal2/veriloga/veriloga.va",
-        line 28: Encountered an embedded declaration statement outside a
-        labeled block. Specify the embedded declaration statement in a labeled
-        block and try again.
