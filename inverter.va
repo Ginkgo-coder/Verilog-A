@@ -23,3 +23,5 @@ module inverter(output out, input in);
     V(out) <+ transition(V(in) > v_th ? v_low : v_high, t_delay, t_rise, t_fall);
   end
 endmodule
+//  FATAL: The following branches form a loop of rigid branches (shorts) when added to the circuit:
+        V5:p (from CK_REF to VSS)
