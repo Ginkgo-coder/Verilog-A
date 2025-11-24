@@ -1,0 +1,25 @@
+`include "constants.vams"
+`include "disciplines.vams"
+
+// Behavioral inverter for square-wave signals with configurable thresholds and timing.
+module inverter(output out, input in);
+  electrical out, in;
+
+  // High logic level (output when input is low).
+  parameter real v_high = 1.8 from [0:inf);
+  // Low logic level (output when input is high).
+  parameter real v_low  = 0.0 from [-inf:v_high];
+  // Threshold to detect input high level.
+  parameter real v_th   = 0.9 from [-inf:inf];
+  // Output rise time (0->1 transitions).
+  parameter real t_rise = 1n from [0:inf);
+  // Output fall time (1->0 transitions).
+  parameter real t_fall = 1n from [0:inf);
+  // Transport delay from input change to output response.
+  parameter real t_delay = 0n from [0:inf);
+
+  analog begin
+    // Use transition() to model finite edge rates and transport delay.
+    V(out) <+ transition(V(in) > v_th ? v_low : v_high, t_delay, t_rise, t_fall);
+  end
+endmodule
