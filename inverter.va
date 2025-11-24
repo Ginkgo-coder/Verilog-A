@@ -28,3 +28,7 @@ module inverter(output out, input in);
     I(out) <+ (V(out) - v_target) / r_out;
   end
 endmodule
+//"/home/shangminyu/cad_tsmc65gp_201811/Califree_PLL_mergedDTC/Califree_inv_ideal2/veriloga/veriloga.va",
+        line 28: Encountered an embedded declaration statement outside a
+        labeled block. Specify the embedded declaration statement in a labeled
+        block and try again.
