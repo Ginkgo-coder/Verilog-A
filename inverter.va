@@ -17,11 +17,14 @@ module inverter(output out, input in);
   parameter real t_fall = 1n from [0:inf);
   // Transport delay from input change to output response.
   parameter real t_delay = 0n from [0:inf);
+  // Output resistance to avoid ideal short loops; keeps source non-rigid.
+  parameter real r_out = 1 from (0:inf);
 
   analog begin
     // Use transition() to model finite edge rates and transport delay.
-    V(out) <+ transition(V(in) > v_th ? v_low : v_high, t_delay, t_rise, t_fall);
+    // Drive output through finite resistance to avoid rigid-branch loops.
+    real v_target;
+    v_target = transition(V(in) > v_th ? v_low : v_high, t_delay, t_rise, t_fall);
+    I(out) <+ (V(out) - v_target) / r_out;
   end
 endmodule
-//  FATAL: The following branches form a loop of rigid branches (shorts) when added to the circuit:
-        V5:p (from CK_REF to VSS)
